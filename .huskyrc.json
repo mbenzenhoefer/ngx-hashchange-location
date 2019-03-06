@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "pre-commit": "npm run code:format && npm run code:lint",
+    "commit-msg": "node node_modules/.bin/commitlint -E HUSKY_GIT_PARAMS"
+  }
+}
