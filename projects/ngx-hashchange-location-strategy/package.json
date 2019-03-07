@@ -1,0 +1,21 @@
+{
+  "name": "ngx-hashchange-location-strategy",
+  "description": "Trigger hashchange event when routing with HashLocationStrategy",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbenzenhoefer/ngx-hashchange-location-strategy.git"
+  },
+  "author": "Moritz Benzenhoefer",
+  "license": "MIT",
+  "keywords": [
+    "hash",
+    "location",
+    "html",
+    "api"
+  ]
+}

@@ -1,16 +1,21 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "outDir": "./lib",
-    "baseUrl": ".",
-    "types": ["node"],
-    "experimentalDecorators": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es5",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "ngx-hashchange-location-strategy": ["dist/ngx-hashchange-location-strategy"],
+      "ngx-hashchange-location-strategy/*": ["dist/ngx-hashchange-location-strategy/*"]
+    }
+  }
 }

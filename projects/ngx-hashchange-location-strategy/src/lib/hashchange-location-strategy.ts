@@ -1,5 +1,5 @@
+import { Inject, Injectable, Optional } from '@angular/core';
 import { HashLocationStrategy, APP_BASE_HREF, PlatformLocation } from '@angular/common';
-import { Inject, Optional, Injectable } from '@angular/core';
 
 /**
  * @description
@@ -8,24 +8,24 @@ import { Inject, Optional, Injectable } from '@angular/core';
  *
  */
 @Injectable()
-export class HashChangeCompatibleHashLocationStrategy extends HashLocationStrategy {
-  private hashChangeFireTimeout: number;
+export class HashChangeLocationStrategy extends HashLocationStrategy {
+  private hashChangeFireTimeout: number = -1;
 
   constructor(
-    appPlatformLocation: PlatformLocation,
+    private readonly appPlatformLocation: PlatformLocation,
     @Optional() @Inject(APP_BASE_HREF) appBaseHref?: string
   ) {
-    super(appPlatformLocation, appBaseHref);
+    super(appPlatformLocation);
   }
 
   pushState(state: any, title: string, path: string, queryParams: string): void {
-    const oldUrl: string = this._getOldUrl();
+    const oldUrl: string = this._getCurrentUrl();
     super.pushState(state, title, path, queryParams);
     this._fireHashChangeEvent(oldUrl);
   }
 
   replaceState(state: any, title: string, path: string, queryParams: string): void {
-    const oldUrl: string = this._getOldUrl();
+    const oldUrl: string = this._getCurrentUrl();
     super.replaceState(state, title, path, queryParams);
     this._fireHashChangeEvent(oldUrl);
   }
@@ -37,7 +37,7 @@ export class HashChangeCompatibleHashLocationStrategy extends HashLocationStrate
 
     // cast to any to make ts readonly attributes writable
     (changeEvt as any).oldURL = oldUrl;
-    (changeEvt as any).newURL = window.location.href;
+    (changeEvt as any).newURL = this._getCurrentUrl();
 
     // fire the event after the routing has finished for all current routings
     // not doing this leads to an loop because of inconsistent states when firing events
@@ -49,7 +49,10 @@ export class HashChangeCompatibleHashLocationStrategy extends HashLocationStrate
     });
   }
 
-  private _getOldUrl(): string {
-    return window.location.href;
+  private _getCurrentUrl(): string {
+    // in the browser the platformLocation object is derived as "PlatformBrowserLocation"
+    // and contains the current locations' href
+    // this object is not exported, so we use any type
+    return (this.appPlatformLocation as any).location.href;
   }
 }
